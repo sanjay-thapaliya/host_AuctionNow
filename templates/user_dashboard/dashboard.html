@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+{% block contend %}
+  <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img class="logo-modify" src="{% static 'logo-banner/LOGO-AI-PNG.png' %}" width="200" height="60" style="margin-left: 69px;" >
+        </a>
+        <div class="inline p-3 ">
+            <strong>Hi {{ request.user }}</strong>  //
+            <a  href="{% url 'logoutpage' %}">logout</a>
+        </div>
+  </nav>
+
+
+{#    Alert#}
+    {% if error_message %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>Error!</strong> {{ error_message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %}
+{#    side bar#}
+
+{% include 'user_dashboard/sidebar.html' %}
+
+{#footer#}
+<footer class="page-footer font-small bg-light text-dark pt-4 mt-5">
+      <div class="footer-copyright text-center py-3">© 2020 Copyright:
+         <a href="https://mdbootstrap.com/"> AuctionNow.com</a>
+      </div>
+</footer>
+
+{% endblock %}

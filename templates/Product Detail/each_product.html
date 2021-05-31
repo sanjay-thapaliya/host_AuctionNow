@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contend %}
+    <style>
+    .modi{
+        margin-right: 20%;
+
+    }
+    </style>
+
+    <!--Section: Block Content-->
+<section class="mb-5 mt-5">
+
+  <div class="row">
+    <div class="col-md-6 mb-4 mb-md-0">
+
+      <div id="mdb-lightbox-ui"></div>
+
+      <div class="mdb-lightbox">
+
+        <div class="row product-gallery mx-1">
+
+          <div class="col-12 mb-0">
+            <figure class="figure ml-5">
+              <a href="{{ particular_product.product_image.url }}"
+                data-size="710x823">
+                <img src="{{ particular_product.product_image.url }}"
+                  class="figure-img img-fluid rounded" style="height: 480px; width: 414px; ">
+              </a>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 p-5">
+        <div class="modi">
+
+              <h5>{{ particular_product.product_name }}</h5>
+              <p class="mb-2 text-muted text-uppercase small">Shirts</p>
+
+              <p><span class="mr-1"><strong>Minimum Price to BID: RS {{ particular_product.product_price }}</strong></span></p>
+              <p class="pt-1">{{ particular_product.product_detail }}</p>
+
+              <hr>
+            {% if request.user.id %}
+                {% if check_bid %}
+                    <div class="alert alert-danger" role="alert">
+                      You had placed a bid for this product..
+                    </div>
+                {% else %}
+
+                <form class="form-inline" method="post">
+                    {% csrf_token %}
+                     <input class="form-control" type="number" step="0.01">
+                      <button type="submit" class="btn btn-primary ml-2">Bid Now</button>
+                </form>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-danger" role="alert">
+                  Please Login to place a bid..
+                </div>
+            {% endif %}
+
+
+            </div>
+        </div>
+  </div>
+
+</section>
+<!--Section: Block Content-->
+
+
+{% endblock %}

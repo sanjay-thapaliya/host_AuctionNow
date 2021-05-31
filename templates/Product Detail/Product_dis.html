@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Product Description{% endblock %}
+{% block contend %}
+     <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <img class="logo-modify" src="{% static 'logo-banner/LOGO-AI-PNG.png' %}" width="200" height="60" style="margin-left: 69px;" >
+        </a>
+
+        <div class="inline p-3 ">
+            {% if user.is_authenticated %}
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Hi {{ request.user }}
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="{% url 'dashboard' %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'logoutpage' %}">logout</a>
+                  </div>
+                </div>
+
+            {% else %}
+                <a href="{% url 'loginpage' %}">Login</a>
+
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        </div>
+    </nav>
+{#    -----------------------------------------------------------------------------------------#}
+
+    <section class="mb-5 mt-5">
+            <div class="row">
+            <div class="col-md-6 mb-4 mb-md-0">
+
+              <div id="mdb-lightbox-ui"></div>
+
+              <div class="mdb-lightbox">
+
+                <div class="row product-gallery mx-1">
+
+                  <div class="col-12 mb-0">
+                    <figure class="figure ml-5">
+                      <a href="{{ particular_product.product_image.url }}"
+                        data-size="710x823">
+                        <img src="{{ particular_product.product_image.url }}"
+                          class="figure-img img-fluid rounded" style="height: 480px; width: 414px; ">
+                      </a>
+                    </figure>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 p-5">
+                <div class="modi">
+
+                      <h5>{{ particular_product.product_name }}</h5>
+                      <p class="mb-2 text-muted text-uppercase small">Shirts</p>
+
+                      <p><span class="mr-1"><strong>Minimum Price to BID: RS {{ particular_product.product_price }}</strong></span></p>
+                      <p class="pt-1">{{ particular_product.product_detail }}</p>
+
+                      <hr>
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                              {{ error }}
+                            </div>
+                    {% else %}
+                    {% if request.user.id %}
+                        {% if check_bid %}
+                            <div class="alert alert-danger" role="alert">
+                              You had placed a bid for this product..
+                            </div>
+                        {% else %}
+
+                        <form class="form-inline" method="post" action="">
+                            {% csrf_token %}
+                             <input class="form-control" type="number" step="0.01" name="bid_price">
+                              <button type="submit" class="btn btn-primary ml-2">Bid Now</button>
+                        </form>
+                            <br>
+                            {% if error_bid_price %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{ error_bid_price }}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <div class="alert alert-danger" role="alert">
+                          Please Login to place a bid..
+                        </div>
+                    {% endif %}
+                    {% endif %}
+
+                    </div>
+                </div>
+          </div>
+    </section>
+{#      {% include 'Product Detail/each_product.html' %}#}
+
+{#    ----------------------------------------------------------------------------------------------#}
+
+
+      <footer class="page-footer font-small bg-light text-dark pt-4">
+      <div class="footer-copyright text-center py-3">© 2020 Copyright:
+         <a href="https://mdbootstrap.com/"> AuctionNow.com</a>
+      </div>
+    </footer>
+{% endblock %}

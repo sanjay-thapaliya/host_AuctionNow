@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block contend %}
+    <style>
+    .custom{
+        padding-top: 30px;
+    }
+    .custom-boder{
+        border: white 4px;
+    }
+    .custom-display-all-product{
+        max-height: 400px;
+        overflow: scroll;
+    }
+    </style>
+    <div class="container custom">
+      <div class="row">
+        <div class="col-sm bg-light p-3 rounded">
+            <h1 class="text-primary modifiy">Post Product for Auction</h1>
+           <form method="post" action="{% url 'dashboard' %}" enctype="multipart/form-data">
+               {% csrf_token %}
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Product name" name="product_name">
+                  </div>
+                  <div class="form-group">
+                    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Product Price for Auction " step="0.01" name="product_price">
+                  </div>
+                  <div class="form-group">
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Product Description" name="product_detail"></textarea>
+                  </div>
+                  <div class="form-group">
+                      <label>Product Picture: </label>
+                      <input type="file" name="product_image" accept="image/x-png,image/gif,image/jpeg"/>
+                  </div>
+                  <div class="form-group">
+                      <label>Auction time</label>
+                      <input type="datetime-local" class="form-control" id="exampleFormControlInput1" placeholder="Datetime" name="date">
+
+                  </div>
+               <button type="submit" class="btn btn-primary">Post</button>
+
+          </form>
+        </div>
+        <div class="col-sm bg-light ml-3 p-3 rounded" >
+            <h1 class="text-primary modifiy">Posted Product</h1>
+            <div class="custom-display-all-product">
+
+                {% for each in posted_products %}
+                <div class="card mb-3" style="max-width: 540px; max-height: 150px; overflow: hidden">
+                      <div class="row no-gutters">
+                        <div class="col-md-4">
+                          <img src="{{ each.product_image.url }}" class="card-img" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ each.product_name }}</h5>
+                            <p class="card-text">{{ each.product_detail }}</p>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+{% endblock %}
